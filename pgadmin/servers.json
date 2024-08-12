@@ -1,0 +1,14 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "sqlit",
+            "Group": "Servers",
+            "Port": 5432,
+            "Username": "sqlit",
+            "Host": "db",
+            "MaintenanceDB": "sqlit",
+            "SSLMode": "prefer",
+            "PassFile": "/pgpass"
+        }
+    }
+}

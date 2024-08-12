@@ -1,0 +1,63 @@
+name: sqlit
+
+services:
+  # NextJS app
+  app:
+    image: oven/bun:latest
+    container_name: nextjs-app
+    ports:
+      - "3000:3000"
+    working_dir: /src
+    volumes:
+      - .:/src
+    env_file:
+      - path: ./.env
+        required: true
+      - path: ./.env.local
+        required: false
+    command: ["sh", "./dev.sh"]
+    depends_on:
+      - db
+    networks:
+      - sqlit-network
+
+  # Postgres database
+  db:
+    container_name: postgres-db
+    image: postgres:13
+    environment:
+      POSTGRES_USER: sqlit
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sqlit
+    ports:
+      - "5432:5432"
+    volumes:
+      - sqlit-db-data:/var/lib/postgresql/data
+    networks:
+      - sqlit-network
+
+  # PGAdmin for managing the database
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: hello@sqlit.uk
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      PGADMIN_LISTEN_PORT: 5050
+    volumes:
+      - ./pgadmin/servers.json:/pgadmin4/servers.json
+      - ./pgadmin/pgpass:/pgpass
+    ports:
+      - "5050:5050"
+    networks:
+      - sqlit-network
+
+
+volumes:
+  sqlit-db-data:
+
+networks:
+  sqlit-network:
+    driver: bridge
