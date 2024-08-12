@@ -5,11 +5,11 @@ const projectDir = process.cwd();
 loadEnvConfig(projectDir);
 
 const config = {
-  schema: "./src/db/schema/*",
+  schema: "./src/lib/schema.ts",
   out: "./drizzle",
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.DATABASE_URL as string,
+    url: process.env.POSTGRES_URL as string,
   },
 } satisfies Config;
 
