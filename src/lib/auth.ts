@@ -1,22 +1,38 @@
+
 import {DrizzleAdapter} from '@auth/drizzle-adapter';
 
 
-import NextAuth from 'next-auth';
-import GitHub from "next-auth/providers/github";
-import { db} from '../lib/db';
+import NextAuth, { NextAuthConfig } from 'next-auth';
+import Credentials from "next-auth/providers/credentials";
+import { db, getUserByEmail, createSession} from '../lib/db';
+import { compare } from 'bcrypt-ts';
 
+
+
+const options = {
+    async authorize({email,password}: any) {
+        let user  = await getUserByEmail(email as string);
+        if(user.length === 0) return null
+        let passwordMatch = await compare(password, user[0].password!);
+        if (passwordMatch) return user[0] as any;
+
+    }
+}
 
 export const {
-    handlers: {GET, POST},
+    handlers,
     auth,signIn, signOut
 
 } = NextAuth({
+    session:{
+        strategy: "jwt",
+    },
     adapter: DrizzleAdapter(db),
-    providers:[GitHub],
+    providers:[Credentials(options)],
     callbacks: {
-        async session({session, user, token}) {
+        async session({session, token}) {
             return session;
-        }
+        },
     }
 })
 
