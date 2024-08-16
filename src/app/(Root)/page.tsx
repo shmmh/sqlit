@@ -1,14 +1,15 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/sQY1uyUDR4t
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import Link from "next/link"
 import { Card } from "@nextui-org/react"
+// main.ts
+if (process.env.NODE_ENV === "development") {
+  import("autopreview/react").then(({ default: AutoPreview }) => {
+    new AutoPreview("#root")
+  })
+}
 
-export default function Component() {
+export default function Landing() {
   return (
-    <div className="flex flex-col min-h-[100dvh]">
+    <div className="flex flex-col min-h-[100dvh] max-w-7xl justify-center align-middle mx-auto">
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
           <div className="container px-4 md:px-6">

@@ -10,7 +10,7 @@ import {
 
 export default function App() {
   return (
-    <Navbar shouldHideOnScroll>
+    <Navbar shouldHideOnScroll maxWidth="xl">
       <NavbarBrand>
         <Link href="/">
           {/* <AcmeLogo /> */}
