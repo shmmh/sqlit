@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { Card } from "@nextui-org/react"
 import { Keyfeatures } from "./components/keyfeatures"
 import { HeroSection } from "./components/herosection"
 import { Testimonials } from "./components/testimonails"

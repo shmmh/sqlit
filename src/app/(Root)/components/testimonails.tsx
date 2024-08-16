@@ -1,5 +1,5 @@
 import { Card } from "@nextui-org/react"
-import { UserIcon } from "../page"
+import { UserIcon } from "@heroicons/react/24/solid"
 
 export const Testimonials = () => {
   return (
@@ -23,7 +23,7 @@ export const Testimonials = () => {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4">
                   <div className="rounded-full bg-primary p-2 text-primary-foreground">
-                    <UserIcon className="h-6 w-6" />
+                    <UserIcon className="size-6" />
                   </div>
                   <div>
                     <h4 className="text-lg font-bold">Emma L.</h4>

@@ -11,7 +11,7 @@ export default function Dashboard() {
   )
 }
 
-export const UserBalanceSection = () => {
+const UserBalanceSection = () => {
   return (
     <div className="grid w-full grid-cols-1 sm:grid-cols-3 items-center justify-center gap-2">
       Hi, User
@@ -22,7 +22,7 @@ export const UserBalanceSection = () => {
   )
 }
 
-export const UserBalanceCard = (props: { title: string; amount: number }) => {
+const UserBalanceCard = (props: { title: string; amount: number }) => {
   const { title, amount } = props
   return (
     <Card
@@ -41,7 +41,7 @@ export const UserBalanceCard = (props: { title: string; amount: number }) => {
   )
 }
 
-export const RecentBillingSection = () => {
+const RecentBillingSection = () => {
   return (
     <div>
       <h1>Recent Billing</h1>
@@ -50,7 +50,7 @@ export const RecentBillingSection = () => {
   )
 }
 
-export const RecentActivitySection = () => {
+const RecentActivitySection = () => {
   return (
     <div>
       <h1>Recent Activity</h1>
