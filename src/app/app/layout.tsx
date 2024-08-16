@@ -23,8 +23,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className + " dark"}>
         <Providers>
-          <AppNav />
-          {children}
+          <div className="max-w-7xl h-screen mx-auto">
+            <AppNav />
+            {children}
+          </div>
         </Providers>
       </body>
     </html>

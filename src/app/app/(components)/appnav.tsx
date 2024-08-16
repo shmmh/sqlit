@@ -12,12 +12,12 @@ import {
 
 export const AppNav = () => {
   return (
-    <nav className="flex w-full flex-cols fixed bottom-0 left-0 h-16 z-40">
+    <nav className="flex w-full max-w-7xl flex-cols fixed bottom-0 left-0 right-0 h-16 z-40 mx-auto">
       <Tabs
         aria-label="Options"
         color="primary"
         classNames={{
-          base: "flex w-full flex-col",
+          base: "flex w-full flex-col mx-auto",
           tabList: "rounded-none",
         }}
         radius="lg"

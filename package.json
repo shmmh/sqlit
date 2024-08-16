@@ -16,6 +16,7 @@
     "@heroicons/react": "^2.1.5",
     "@nextui-org/react": "^2.4.6",
     "@radix-ui/react-slot": "^1.1.0",
+    "@react-stately/data": "^3.11.6",
     "add": "^2.0.6",
     "bcrypt-ts": "^5.0.2",
     "class-variance-authority": "^0.7.0",
@@ -23,6 +24,7 @@
     "commander": "^12.1.0",
     "drizzle-kit": "^0.24.0",
     "drizzle-orm": "^0.33.0",
+    "embla-carousel-react": "^8.1.8",
     "framer-motion": "^11.3.24",
     "lucide-react": "^0.427.0",
     "next": "14.2.5",
@@ -32,6 +34,7 @@
     "postgres": "^3.4.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-stately": "^3.32.1",
     "tailwind-merge": "^2.5.0",
     "tailwindcss-animate": "^1.0.7"
   },
