@@ -7,8 +7,10 @@ export const HeroSection = () => {
         <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px] sm:grid-col-1">
           <div className="flex flex-col justify-center space-y-4">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Simplify Your Shared Expenses
+              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-600 dark:via-neutral-400 dark:to-neutral-200 overflow-auto">
+                <span>Simplify Your </span>
+                <br className="block sm:hidden" />
+                <span>Shared Expenses</span>
               </h1>
               <p className="w-full text-muted-foreground md:text-xl">
                 Welcome to Sqlit (/sqlɪt/)—your go-to solution for splitting
@@ -19,18 +21,18 @@ export const HeroSection = () => {
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <Link
-                href="#"
+                href="/signup"
                 className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                 prefetch={false}
               >
-                Download App
+                Get Started
               </Link>
               <Link
-                href="#"
+                href="/signin"
                 className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                 prefetch={false}
               >
-                Sign Up
+                Signin
               </Link>
             </div>
           </div>

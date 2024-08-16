@@ -6,14 +6,21 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
+  Link,
 } from "@nextui-org/react"
 
 export default function LoginPage() {
   return (
-    <div className="flex h-[100dvh] min-h-screen  items-center justify-center flex-col gap-1">
+    <div className="flex min-h-[100dvh]  items-center justify-center flex-col gap-1">
+      <Link href="/">
+        {/* <AcmeLogo /> */}
+        <p className="font-black text-2xl md:text-4xl lg:text-6xl max-w-7xl mx-auto text-center mt-6 relative z-20 py-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-800 dark:via-white dark:to-white">
+          SꟼLIT
+        </p>
+      </Link>
       <Card className="w-full max-w-sm p-8 shadow-md">
         <CardHeader>
-          <h2 className="text-xl font-semibold">Login</h2>
+          <h2 className="text-2xl font-semibold w-full text-center">Login</h2>
         </CardHeader>
         <CardBody>
           <form className="flex flex-col space-y-4">

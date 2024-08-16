@@ -7,7 +7,7 @@ export const Keyfeatures = () => {
             <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
               Key Features
             </div>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-800 dark:via-white dark:to-white">
               Effortless Receipt Scanning{" "}
             </h2>
             <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
