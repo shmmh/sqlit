@@ -33,7 +33,7 @@ export default function Signup() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex min-h-screen h-[100dvh] items-center justify-center flex-col gap-1">
       <Card className="w-full max-w-sm p-8 shadow-md">
         <CardHeader className="text-center">
           <h2 className="text-xl font-semibold text-center">Sign Up</h2>
@@ -83,6 +83,9 @@ export default function Signup() {
           </p>
         </CardFooter>
       </Card>
+      <p className="text-xs text-muted-foreground">
+        &copy; {new Date().getFullYear()} Sqlit. All rights reserved.
+      </p>
     </div>
   )
 }

@@ -10,7 +10,7 @@ import {
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex h-[100dvh] min-h-screen  items-center justify-center flex-col gap-1">
       <Card className="w-full max-w-sm p-8 shadow-md">
         <CardHeader>
           <h2 className="text-xl font-semibold">Login</h2>
@@ -46,6 +46,9 @@ export default function LoginPage() {
           </p>
         </CardFooter>
       </Card>
+      <p className="text-xs text-muted-foreground">
+        &copy; {new Date().getFullYear()} Sqlit. All rights reserved.
+      </p>
     </div>
   )
 }

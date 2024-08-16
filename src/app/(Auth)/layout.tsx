@@ -1,11 +1,9 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import "./../globals.css"
+import "@/app/(Root)/globals.css"
 import { Providers } from "./../providers"
 
 const inter = Inter({ subsets: ["latin"] })
-
-import { NextUIProvider } from "@nextui-org/react"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,5 +15,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return <Providers>{children}</Providers>
+  return (
+    <html lang="en">
+      <body className={inter.className + " dark"}>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  )
 }
