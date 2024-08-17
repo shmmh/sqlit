@@ -2,12 +2,12 @@
 
 import React from "react"
 import { Tabs, Tab } from "@nextui-org/react"
-import Link from "next/link"
+import { Link } from "next-view-transitions"
 import {
   HomeIcon,
   UserIcon,
   UserGroupIcon,
-  NewspaperIcon,
+  BanknotesIcon,
 } from "@heroicons/react/24/solid"
 
 export const AppNav = () => {
@@ -36,14 +36,14 @@ export const AppNav = () => {
           className="h-auto"
         />
         <Tab
-          key="activity"
+          key="expenses"
           title={
             <Link
-              href="/app/activity"
+              href="/app/expenses"
               className="flex flex-col items-center gap-2"
             >
-              <NewspaperIcon className="size-6" />
-              <span>Activity</span>
+              <BanknotesIcon className="size-6" />
+              <span>Expenses</span>
             </Link>
           }
           className="h-auto"

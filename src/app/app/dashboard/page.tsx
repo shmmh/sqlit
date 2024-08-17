@@ -7,7 +7,7 @@ import { RecentActivitySection } from "../(components)/recent-activity"
 
 export default function Dashboard() {
   return (
-    <div className="p-4 flex flex-col gap-8 justify-start">
+    <div className="p-4 flex flex-col gap-8 justify-start pb-20">
       <User
         name="Junior Garcia"
         description={"@juniorgarcia"}

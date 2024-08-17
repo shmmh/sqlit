@@ -8,7 +8,7 @@ import {
   TableRow,
   getKeyValue,
 } from "@nextui-org/react"
-
+import { Link as NVLink } from "next-view-transitions"
 export const RecentActivitySection = () => {
   const isLoading = false
   return (
@@ -25,8 +25,12 @@ export const RecentActivitySection = () => {
 }
 
 const RecentActivity = () => {
+  const expenseId = 123
   return (
-    <div className="flex flex-row justify-between w-full">
+    <NVLink
+      href={"/app/expenses/" + expenseId}
+      className="flex flex-row justify-between w-full expense-123"
+    >
       <div className="flex flex-row-flex-start gap-4">
         <div className="w-14 h-14 rounded-full bg-red-500"></div>
         <div className="flex flex-col">
@@ -35,6 +39,6 @@ const RecentActivity = () => {
         </div>
       </div>
       <h3 className="font-bold text-xl">$200</h3>
-    </div>
+    </NVLink>
   )
 }

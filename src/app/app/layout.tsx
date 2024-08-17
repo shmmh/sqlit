@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 
 const inter = Inter({ subsets: ["latin"] })
+import { ViewTransitions } from "next-view-transitions"
 
 import { AppNav } from "./(components)/appnav"
 
@@ -20,15 +21,17 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className + " dark"}>
-        <Providers>
-          <div className="max-w-7xl h-screen mx-auto">
-            <AppNav />
-            {children}
-          </div>
-        </Providers>
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang="en">
+        <body className={inter.className + " dark"}>
+          <Providers>
+            <div className="max-w-7xl h-screen mx-auto">
+              <AppNav />
+              {children}
+            </div>
+          </Providers>
+        </body>
+      </html>
+    </ViewTransitions>
   )
 }

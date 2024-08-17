@@ -28,3 +28,5 @@ const UserBalanceCard = (props: { title: string; amount: number }) => {
     </Card>
   )
 }
+
+export default UserBalanceSection
