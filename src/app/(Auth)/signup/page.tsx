@@ -16,6 +16,7 @@ import {
 export default function Signup() {
   async function register(formData: FormData) {
     "use server"
+    console.log("formData", formData)
     let email = formData.get("email") as string
     let password = formData.get("password") as string
     let name = formData.get("name") as string
@@ -45,12 +46,24 @@ export default function Signup() {
           <h2 className="text-xl font-semibold w-full text-center">Sign Up</h2>
         </CardHeader>
         <CardBody>
-          <form className="flex flex-col space-y-4">
+          {/* <Form formType="register" action={register}>
+            <SubmitButton>Sign Up</SubmitButton>
+            <p className="text-center text-sm text-gray-600">
+              {"Already have an account? "}
+              <Link href="/login" className="font-semibold text-gray-800">
+                Sign in
+              </Link>
+              {" instead."}
+            </p>
+          </Form> */}
+          <form className="flex flex-col space-y-4" action={register}>
             <Input
               placeholder="Name"
               labelPlacement="inside"
               variant="bordered"
               type="text"
+              id="name"
+              name="name"
               required
             />
             <Input
@@ -58,6 +71,8 @@ export default function Signup() {
               labelPlacement="inside"
               variant="bordered"
               type="text"
+              id="username"
+              name="username"
               required
             />
             <Input
@@ -65,6 +80,8 @@ export default function Signup() {
               labelPlacement="inside"
               variant="bordered"
               type="email"
+              name="email"
+              id="email"
               required
             />
             <Input
@@ -72,6 +89,8 @@ export default function Signup() {
               labelPlacement="inside"
               variant="bordered"
               type="password"
+              id="password"
+              name="password"
               required
             />
             <Spacer y={1} />

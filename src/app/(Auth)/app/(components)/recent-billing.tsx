@@ -41,7 +41,7 @@ const UserBillCard = (props: {
   participants: any
 }) => {
   return (
-    <div className="w-auto h-auto flex gap-2 flex-col">
+    <div className="w-auto h-auto flex gap-2 flex-col blue-finance">
       <Card classNames={{ base: "p-2" }} radius="md">
         <CardHeader>
           <div className="flex flex-row justify-between w-full">
@@ -65,7 +65,7 @@ const UserBillCard = (props: {
           </div>
         </CardBody>
         <CardFooter className="p-0">
-          <Button variant="solid" className="w-full p-0">
+          <Button variant="solid" color="primary" className="w-full p-0">
             View Details
           </Button>
         </CardFooter>

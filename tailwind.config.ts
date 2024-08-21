@@ -1,5 +1,44 @@
-import { nextui } from "@nextui-org/react"
+import { ConfigThemes, nextui } from "@nextui-org/react"
 import type { Config } from "tailwindcss"
+
+
+const nextuiTheme: ConfigThemes = {
+  "blue-finance": {
+    extend: "dark", // <- inherit default values from dark theme
+    colors: {
+      background: "#001A33",
+      foreground: "#E0E6ED",
+      primary: {
+        50: "#002E66",
+        100: "#004080",
+        200: "#0055A3",
+        300: "#0066CC",
+        400: "#3385D6",
+        500: "#4D9FE6",
+        600: "#66B2F0",
+        700: "#80C1F2",
+        800: "#99D0F5",
+        900: "#CCE6F9",
+        DEFAULT: "#0066CC",
+        foreground: "#E0E6ED",
+      },
+      focus: "#4D9FE6",
+    },
+    layout: {
+      disabledOpacity: "0.4",
+      radius: {
+        small: "3px",
+        medium: "5px",
+        large: "7px",
+      },
+      borderWidth: {
+        small: "1px",
+        medium: "2px",
+        large: "3px",
+      },
+    },
+  },
+}
 
 const config = {
   darkMode: ["class"],
@@ -76,7 +115,8 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), nextui()],
+  plugins: [require("tailwindcss-animate"),nextui( {themes: nextuiTheme} )],
 } satisfies Config
 
 export default config
+

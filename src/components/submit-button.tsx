@@ -1,15 +1,16 @@
 "use client"
 
+import { Button, Spinner } from "@nextui-org/react"
 import { useFormStatus } from "react-dom"
 
 export function SubmitButton({ children }: { children: React.ReactNode }) {
   const { pending } = useFormStatus()
 
   return (
-    <button
+    <Button
       type={pending ? "button" : "submit"}
       aria-disabled={pending}
-      className="flex h-10 w-full items-center justify-center rounded-md border text-sm transition-all focus:outline-none"
+      className="flex h-10 w-full items-center justify-center rounded-md border text-sm transition-all bg-blue-00 focus:outline-none"
     >
       {children}
       {pending && (
@@ -35,8 +36,9 @@ export function SubmitButton({ children }: { children: React.ReactNode }) {
         </svg>
       )}
       <span aria-live="polite" className="sr-only" role="status">
+        <Spinner />
         {pending ? "Loading" : "Submit form"}
       </span>
-    </button>
+    </Button>
   )
 }

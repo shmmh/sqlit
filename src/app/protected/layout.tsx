@@ -8,6 +8,7 @@ import Footer from "@/components/Footer"
 const inter = Inter({ subsets: ["latin"] })
 
 import { NextUIProvider } from "@nextui-org/react"
+import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + " dark"}>
+      <body className={cn([inter.className, "blue-finance"])}>
         <Providers>
           <Navbar />
           {children}

@@ -16,9 +16,9 @@ export const RecentActivitySection = () => {
       <h2 className="font-bold text-xl">Recent Activity</h2>
 
       <div className="w-full flex gap-2 flex-col">
-        <RecentActivity />
-        <RecentActivity />
-        <RecentActivity />
+        <RecentActivity key={1} />
+        <RecentActivity key={2} />
+        <RecentActivity key={3} />
       </div>
     </div>
   )
@@ -32,7 +32,7 @@ const RecentActivity = () => {
       className="flex flex-row justify-between w-full expense-123"
     >
       <div className="flex flex-row-flex-start gap-4">
-        <div className="w-14 h-14 rounded-full bg-red-500"></div>
+        <div className="[view-transition-name:abc] w-14 h-14 rounded-full bg-red-500"></div>
         <div className="flex flex-col">
           <div className="restraunt-name font-semibold">Restraunt 1</div>
           <span>10 Dec 2024 | 19:30</span>

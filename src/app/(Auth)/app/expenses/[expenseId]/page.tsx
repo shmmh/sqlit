@@ -10,11 +10,11 @@ import UserExpenseDetails from "../../(components)/user-expense-details"
 const ExpensesDetailsPage = ({ params }: { params: { expenseId: string } }) => {
   const expenseId = params.expenseId
   return (
-    <div className="p-4 min-h-screen pb-16">
+    <div className="p-4 min-h-screen pb-16 pt-64">
       <div className="flex flex-col justify-between w-full expense-123 flex-grow pb-16 gap-2">
         <div className="flex flex-row justify-between gap-4">
           <div className="flex flex-row flex-start gap-4">
-            <div className="w-14 h-14 rounded-full bg-red-500"></div>
+            <div className="[view-transition-name:abc]w-24 h-24 rounded-full bg-red-500"></div>
             <div className="flex flex-col">
               <div className="restraunt-name font-semibold">Restraunt 1</div>
               <span>10 Dec 2024 | 19:30</span>
