@@ -7,7 +7,7 @@ export const HeroSection = () => {
         <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px] sm:grid-col-1">
           <div className="flex flex-col justify-center space-y-4">
             <div className="space-y-2">
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-600 dark:via-neutral-400 dark:to-neutral-200 overflow-auto">
+              <h1 className="overflow-hidden text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-600 dark:via-neutral-400 dark:to-neutral-200">
                 <span>Simplify Your </span>
                 <br className="block sm:hidden" />
                 <span>Shared Expenses</span>

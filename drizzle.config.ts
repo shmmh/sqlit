@@ -8,7 +8,7 @@ loadEnvConfig(projectDir);
 const config: Config = {
   schema: "./src/lib/schema.ts",
   out: "./drizzle",
-  dialect:"postgresql",
+  dialect: "postgresql",
   dbCredentials: {
     url: cfg.POSTGRES_URL as string,
   },
