@@ -22,11 +22,7 @@ export default async function RootLayout({
   const session = await auth()
   return (
     <html lang="en">
-      <body
-        className={
-          inter.className + " blue-finance text-foreground bg-background dark"
-        }
-      >
+      <body className={inter.className}>
         <Providers>
           <Navbar />
           <SessionProvider session={session}>{children}</SessionProvider>

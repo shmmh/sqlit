@@ -5,6 +5,7 @@ import { Providers } from "./../providers"
 import { Session } from "inspector"
 import { SessionProvider } from "next-auth/react"
 import { auth } from "@/lib/auth"
+import { redirect } from "next/navigation"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,7 +22,7 @@ export default async function RootLayout({
   const session = await auth()
   return (
     <html lang="en">
-      <body className={inter.className + " dark"}>
+      <body className={inter.className}>
         <SessionProvider session={session}>
           <Providers>{children}</Providers>
         </SessionProvider>

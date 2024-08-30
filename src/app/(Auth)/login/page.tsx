@@ -1,10 +1,7 @@
-import Form from "@/components/form"
 import { SubmitButton } from "@/components/submit-button"
-import { signIn } from "@/lib/auth"
-import { useFormState } from "react-dom"
+import { auth, signIn } from "@/lib/auth"
 import {
   Input,
-  Button,
   Spacer,
   Card,
   CardHeader,
@@ -12,15 +9,12 @@ import {
   CardFooter,
   Link,
 } from "@nextui-org/react"
-import { AuthError } from "next-auth"
 import { redirect } from "next/navigation"
 
-export default function LoginPage() {
-  async function signinWithEmailAndPassword(formData: FormData) {
-    "use server"
-    const email = formData.get("email") as string
-    const password = formData.get("password") as string
-  }
+export default async function LoginPage() {
+  const session = await auth()
+  console.log("login session", session)
+  if (session) redirect("/app/dashboard")
 
   return (
     <div className="flex min-h-[100dvh]  items-center justify-center flex-col gap-1">
@@ -44,7 +38,8 @@ export default function LoginPage() {
               await signIn("credentials", {
                 email,
                 password,
-                redirectTo: "/app/dashboard",
+                redirect: true,
+                callbackUrl: "/app/dashboard",
               })
             }}
           >
@@ -67,30 +62,10 @@ export default function LoginPage() {
             <Spacer y={1} />
             <SubmitButton>Sign In</SubmitButton>
           </form>
-          {/* <Form
-            formType="login"
-            action={async (formData: FormData) => {
-              "use server"
-              await signIn("credentials", {
-                redirectTo: "/dashboard",
-                email: formData.get("email") as string,
-                password: formData.get("password") as string,
-              })
-            }}
-          >
-            <SubmitButton>Sign in</SubmitButton>
-            <p className="text-center text-sm text-gray-600">
-              {"Don't have an account? "}
-              <Link href="/signup" className="font-semibold text-gray-800">
-                Sign up
-              </Link>
-              {" for free."}
-            </p>
-          </Form> */}
         </CardBody>
         <CardFooter>
           <p className="text-center w-full">
-            Don't have an account?{" "}
+            {`Don't have an account?`}
             <a href="/signup" className="text-blue-500">
               Sign up
             </a>

@@ -23,7 +23,7 @@ export async function getAllPayments() {
 }
 
 // Get a Payment by ID using findFirst
-export async function getPaymentById(paymentId: number) {
+export async function getPaymentById(paymentId: string) {
     const payment = await db.select().from(payments)
         .where(eq(payments.payment_id, paymentId))
 
@@ -31,7 +31,7 @@ export async function getPaymentById(paymentId: number) {
 }
 
 // Update a Payment
-export async function updatePayment(paymentId: number, data: Partial<PaymentInsert>) {
+export async function updatePayment(paymentId: string, data: Partial<PaymentInsert>) {
     const result: PaymentSelect[] = await db.update(payments)
         .set({
             ...data,
@@ -47,7 +47,7 @@ export async function updatePayment(paymentId: number, data: Partial<PaymentInse
 }
 
 // Delete a Payment
-export async function deletePayment(paymentId: number) {
+export async function deletePayment(paymentId: string) {
     const result: PaymentSelect[] = await db.delete(payments)
         .where(eq(payments.payment_id, paymentId))
         .returning(); // Returns the deleted payment(s)

@@ -22,28 +22,28 @@ export async function getAllUsers() {
 }
 
 // Get User by ID
-export async function getUserById(userId: number) {
-    const user = await db.select().from(users).where(eq(users.user_id, userId));
+export async function getUserById(userId: string) {
+    const user = await db.select().from(users).where(eq(users.id, userId));
     return user[0];
 }
 
 // Update a User
-export async function updateUser(userId: number, data: Partial<{ username: string; email: string; password: string }>) {
+export async function updateUser(userId: string, data: Partial<{ username: string; email: string; password: string }>) {
     const [updatedUser] = await db.update(users)
         .set({
             ...data, // Spread the updated fields
             updated_at: new Date(), // Update the `updated_at` timestamp
         })
-        .where(eq(users.user_id, userId))
+        .where(eq(users.id, userId))
         .returning(); // Returns the updated user
 
     return updatedUser;
 }
 
 // Delete a User
-export async function deleteUser(userId: number) {
+export async function deleteUser(userId: string) {
     const [deletedUser] = await db.delete(users)
-        .where(eq(users.user_id, userId))
+        .where(eq(users.id, userId))
         .returning(); // Returns the deleted user
 
     return deletedUser;

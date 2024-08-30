@@ -1,9 +1,10 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "@/app/(Root)/globals.css"
-import { Providers } from "../../providers"
+import { Providers } from "../providers"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
+import { cn } from "@/lib/utils"
 
 const inter = Inter({ subsets: ["latin"] })
 import { ViewTransitions } from "next-view-transitions"
@@ -11,6 +12,7 @@ import { ViewTransitions } from "next-view-transitions"
 import { AppNav } from "./(components)/appnav"
 import { SessionProvider } from "next-auth/react"
 import { auth } from "@/lib/auth"
+import { redirect } from "next/navigation"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,10 +25,11 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const session = await auth()
+  if (!session) return redirect("/login")
   return (
     <ViewTransitions>
       <html lang="en">
-        <body className={inter.className + " dark blue-finance"}>
+        <body className={cn(inter.className)}>
           <Providers>
             <SessionProvider session={session}>
               <div className="max-w-7xl h-screen mx-auto">

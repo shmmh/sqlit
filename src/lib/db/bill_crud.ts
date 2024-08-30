@@ -23,7 +23,7 @@ export async function getAllBills() {
 }
 
 // Get a Bill by ID using findFirst
-export async function getBillById(billId: number) {
+export async function getBillById(billId: string) {
     const bill = await db.select().from(bills)
         .where(eq(bills.bill_id, billId))
 
@@ -32,7 +32,7 @@ export async function getBillById(billId: number) {
 }
 
 // Update a Bill
-export async function updateBill(billId: number, data: Partial<typeof bills.$inferInsert>) {
+export async function updateBill(billId: string, data: Partial<typeof bills.$inferInsert>) {
     const [updatedBill] = await db.update(bills)
         .set({
             ...data,
@@ -45,7 +45,7 @@ export async function updateBill(billId: number, data: Partial<typeof bills.$inf
 }
 
 // Delete a Bill
-export async function deleteBill(billId: number) {
+export async function deleteBill(billId: string) {
     const [deletedBill] = await db.delete(bills)
         .where(eq(bills.bill_id, billId))
         .returning(); // Returns the deleted bill

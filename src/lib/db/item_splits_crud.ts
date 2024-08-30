@@ -23,7 +23,7 @@ export async function getAllItemSplits() {
 }
 
 // Get an Item Split by ID using findFirst
-export async function getItemSplitById(itemSplitId: number) {
+export async function getItemSplitById(itemSplitId: string) {
     const itemSplit = await db.select().from(itemSplits)
         .where(eq(itemSplits.item_split_id, itemSplitId))
 
@@ -31,7 +31,7 @@ export async function getItemSplitById(itemSplitId: number) {
 }
 
 // Update an Item Split
-export async function updateItemSplit(itemSplitId: number, data: Partial<ItemSplitInsert>) {
+export async function updateItemSplit(itemSplitId: string, data: Partial<ItemSplitInsert>) {
     const result: ItemSplitSelect[] = await db.update(itemSplits)
         .set({
             ...data,
@@ -47,7 +47,7 @@ export async function updateItemSplit(itemSplitId: number, data: Partial<ItemSpl
 }
 
 // Delete an Item Split
-export async function deleteItemSplit(itemSplitId: number) {
+export async function deleteItemSplit(itemSplitId: string) {
     const result: ItemSplitSelect[] = await db.delete(itemSplits)
         .where(eq(itemSplits.item_split_id, itemSplitId))
         .returning(); // Returns the deleted item split(s)

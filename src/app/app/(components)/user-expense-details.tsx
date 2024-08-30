@@ -41,7 +41,7 @@ export default function UserExpenseDetails() {
         title="Chung Miller"
       >
         {user_items.map((item) => {
-          return <UserItems items={user_items} />
+          return <UserItems key={item.id} items={user_items} />
         })}
       </AccordionItem>
       <AccordionItem
@@ -69,7 +69,7 @@ export default function UserExpenseDetails() {
         title="Chung Miller"
       >
         {user_items.map((item) => {
-          return <UserItems items={user_items} />
+          return <UserItems key={item.id} items={user_items} />
         })}
       </AccordionItem>
     </Accordion>

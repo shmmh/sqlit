@@ -94,9 +94,7 @@ export default function Signup() {
               required
             />
             <Spacer y={1} />
-            <Button type="submit" className="bg-blue-500">
-              Sign Up
-            </Button>
+            <SubmitButton>Sign Up</SubmitButton>
           </form>
         </CardBody>
         <CardFooter>

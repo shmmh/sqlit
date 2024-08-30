@@ -23,7 +23,7 @@ export async function getAllExpenses() {
 }
 
 // Get an Expense by ID using findFirst
-export async function getExpenseById(expenseId: number) {
+export async function getExpenseById(expenseId: string) {
     const expense = await db.select().from(expenses)
         .where(eq(expenses.expense_id, expenseId))
 
@@ -31,7 +31,7 @@ export async function getExpenseById(expenseId: number) {
 }
 
 // Update an Expense
-export async function updateExpense(expenseId: number, data: Partial<ExpenseInsert>) {
+export async function updateExpense(expenseId: string, data: Partial<ExpenseInsert>) {
     const result: ExpenseSelect[] = await db.update(expenses)
         .set({
             ...data,
@@ -47,7 +47,7 @@ export async function updateExpense(expenseId: number, data: Partial<ExpenseInse
 }
 
 // Delete an Expense
-export async function deleteExpense(expenseId: number) {
+export async function deleteExpense(expenseId: string) {
     const result: ExpenseSelect[] = await db.delete(expenses)
         .where(eq(expenses.expense_id, expenseId))
         .returning(); // Returns the deleted expense(s)

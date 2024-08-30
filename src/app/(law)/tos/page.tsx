@@ -15,11 +15,11 @@ export default function Tos() {
             Acceptance of Terms
           </h2>
           <p className="mt-4 text-muted-foreground">
-            By accessing or using Sqlit App, you agree to be bound by these
-            Terms of Service ("Terms"). If you do not agree to these Terms,
+            {`By accessing or using Sqlit App, you agree to be bound by these
+            Terms of Service ('Terms'). If you do not agree to these Terms,
             please do not use the application. Sqlit App reserves the right to
             update or change these Terms at any time, and your continued use of
-            the application constitutes acceptance of those changes.
+            the application constitutes acceptance of those changes.`}
           </p>
         </div>
         <div>
@@ -101,12 +101,12 @@ export default function Tos() {
             Limitation of Liability
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Sqlit App is provided "as is" and without any warranty of any kind,
+            {`Sqlit App is provided "as is" and without any warranty of any kind,
             whether express or implied. Sqlit App does not guarantee that the
             application will be available at all times or that it will be free
             of errors or interruptions. To the fullest extent permitted by law,
             Sqlit App disclaims all liability for any damages arising from your
-            use of the application.
+            use of the application.`}
           </p>
         </div>
         <div>

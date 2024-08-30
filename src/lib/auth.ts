@@ -2,15 +2,23 @@
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 
 
-import NextAuth, { NextAuthConfig } from 'next-auth';
+import NextAuth from 'next-auth';
+import type { NextAuthConfig } from 'next-auth';
+import { encode as defaultEncode } from 'next-auth/jwt'
 import Credentials from "next-auth/providers/credentials";
 import { db, getUserByEmail, createSession, getUserByUsername, createUser } from '../lib/db';
 import { compare } from 'bcrypt-ts';
 import { redirect } from 'next/navigation';
-import { users } from './schema/auth-schema';
-import credentials from 'next-auth/providers/credentials';
+import { accounts, authenticators, sessions, users } from './schema';
+
 
 type User = typeof users.$inferSelect
+const adapter = DrizzleAdapter(db, {
+    usersTable: users,
+    sessionsTable: sessions,
+    accountsTable: accounts,
+    authenticatorsTable: authenticators
+})
 
 const credOptions = {
     async authorize({ email, password }: any) {
@@ -26,16 +34,49 @@ const credOptions = {
     }
 }
 
-const nextAuthConfig: NextAuthConfig = {
+export const nextAuthConfig: NextAuthConfig = {
 
-    adapter: DrizzleAdapter(db),
+    adapter,
+    session: {
+        strategy: "jwt"
+    },
     basePath: "/api/auth",
     providers: [Credentials(credOptions)],
+    secret: process.env.AUTH_SECRET,
     callbacks: {
+        async session({ session, token }) {
+            if (token?.sub) {
+                session.user.id = token?.sub
+            }
+            return session
+        }
 
-
-
+    },
+    pages: {
+        signIn: "/login",
     }
+    // jwt: {
+    //     encode: async (params) => {
+    //         if (params.token?.credentials) {
+    //             const sessionToken = crypto.randomUUID()
+    //             if (!params.token?.sub) {
+    //                 throw new Error("No user found")
+    //             }
+    //             const createdSession = await adapter?.createSession?.({
+    //                 sessionToken: sessionToken,
+    //                 userId: params.token.sub,
+    //                 expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+    //             })
+
+    //             if (!createdSession) {
+    //                 throw new Error("Failed to create session")
+    //             }
+
+    //             return sessionToken
+    //         }
+    //         return defaultEncode(params)
+    //     }
+    // }
 }
 export async function signInWithEmail(formData: FormData) {
     await signIn("credentials", {

@@ -31,9 +31,9 @@ export const Testimonials = () => {
                   </div>
                 </div>
                 <p className="text-muted-foreground">
-                  "A Must-Have for Group Dinners! I never realized splitting
+                  A Must-Have for Group Dinners! I never realized splitting
                   bills could be this easy. The receipt scanning feature alone
-                  is worth it. Highly recommend!”
+                  is worth it. Highly recommend!
                 </p>
               </div>
             </Card>
@@ -51,9 +51,9 @@ export const Testimonials = () => {
                   </div>
                 </div>
                 <p className="text-muted-foreground">
-                  "I was skeptical about trying a new app, but Sqlit App has
+                  I was skeptical about trying a new app, but Sqlit App has
                   exceeded my expectations. The intuitive interface and powerful
-                  features have transformed the way I manage my projects."
+                  features have transformed the way I manage my projects.
                 </p>
               </div>
             </Card>
@@ -71,9 +71,9 @@ export const Testimonials = () => {
                   </div>
                 </div>
                 <p className="text-muted-foreground">
-                  "Sqlit App has been a game-changer for our social gatherings.
+                  Sqlit App has been a game-changer for our social gatherings.
                   team. The AI transcription feature has saved us countless
-                  hours of manual budgeting. Highly recommend!"
+                  hours of manual budgeting. Highly recommend!
                 </p>
               </div>
             </Card>

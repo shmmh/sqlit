@@ -23,7 +23,7 @@ export async function getAllItems() {
 }
 
 // Get an Item by ID using findFirst
-export async function getItemById(itemId: number) {
+export async function getItemById(itemId: string) {
     const item = await db.select().from(items)
         .where(eq(items.item_id, itemId))
 
@@ -31,7 +31,7 @@ export async function getItemById(itemId: number) {
 }
 
 // Update an Item
-export async function updateItem(itemId: number, data: Partial<ItemInsert>) {
+export async function updateItem(itemId: string, data: Partial<ItemInsert>) {
     const result: ItemSelect[] = await db.update(items)
         .set({
             ...data,
@@ -47,7 +47,7 @@ export async function updateItem(itemId: number, data: Partial<ItemInsert>) {
 }
 
 // Delete an Item
-export async function deleteItem(itemId: number) {
+export async function deleteItem(itemId: string) {
     const result: ItemSelect[] = await db.delete(items)
         .where(eq(items.item_id, itemId))
         .returning(); // Returns the deleted item(s)
