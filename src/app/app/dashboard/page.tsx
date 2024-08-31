@@ -23,11 +23,6 @@ export default async function Dashboard() {
   const session = await auth()
   if (!session) return redirect("/login")
   console.log("session", session)
-  const user_expenses = await createExpense({
-    userId: session?.user.id as string,
-    amount: "100.0",
-    paid: false,
-  })
 
   return (
     <div className="p-4 flex flex-col gap-8 justify-start pb-20">

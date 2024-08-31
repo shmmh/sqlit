@@ -1,6 +1,6 @@
 // lib/db/expenses.ts
 import { db } from '../db'; // Your Drizzle-ORM instance
-import { expenses } from './../schema'; // Import the expenses table schema
+import { expenses } from '../.schema'; // Import the expenses table schema
 import { eq } from 'drizzle-orm'; // Import the eq function for querying
 
 // Infer types from the schema

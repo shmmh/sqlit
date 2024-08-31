@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
     boolean,
     timestamp,
@@ -5,121 +6,124 @@ import {
     text,
     primaryKey,
     integer,
-    decimal
-} from "drizzle-orm/pg-core"
+    decimal,
+    pgEnum,
+} from "drizzle-orm/pg-core";
+import { AdapterAccountType } from "next-auth/adapters";
 
-import type { AdapterAccountType } from "next-auth/adapters"
-
-export const users = pgTable("user", {
-    id: text("id")
-        .primaryKey()
-        .$defaultFn(() => crypto.randomUUID()),
-    name: text("name"),
-    email: text("email").unique(),
+// Users table
+export const users = pgTable("users", {
+    id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+    name: text("name").notNull(),
+    email: text("email").unique().notNull(),
     password: text("password").notNull(),
     username: text("username").unique().notNull(),
-    emailVerified: timestamp("emailVerified", { mode: "date" }),
-    image: text("image"),
+    email_verified: boolean("email_verified").default(false).notNull(),
     created_at: timestamp("created_at").defaultNow().notNull(),
     updated_at: timestamp("updated_at").defaultNow().notNull(),
-})
-
-// Friends table
-export const friends = pgTable("friends", {
-    friendship_id: text("friendship_id").primaryKey().$defaultFn(() => crypto.randomUUID()),
-    userId: text("userId").references(() => users.id).notNull(),
-    friend_id: text("friend_id").references(() => users.id).notNull(),
-    created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
-// Bills table
-export const bills = pgTable("bills", {
-    bill_id: text("bill_id").primaryKey().$defaultFn(() => crypto.randomUUID()),
-    created_by: text("created_by").references(() => users.id).notNull(),
-    total_amount: decimal("total_amount", { precision: 10, scale: 2 }).notNull(),
-    title: text("title"),
-    created_at: timestamp("created_at").defaultNow().notNull(),
-});
+// Expense categories enum
+export const expenseCategoryEnum = pgEnum('expense_category', [
+    'utilities',
+    'food',
+    'transportation',
+    'entertainment',
+    'other'
+]);
 
 // Expenses table
 export const expenses = pgTable("expenses", {
-    expense_id: text("expense_id").primaryKey().$defaultFn(() => crypto.randomUUID()),
-    userId: text("userId").references(() => users.id).notNull(),
-    amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+    id: text("id").primaryKey(),
+    name: text("name").notNull(),
+    description: text("description"),
+    total_amount: decimal("total_amount", { precision: 10, scale: 2 }).notNull().$type<number>(),
+    category: expenseCategoryEnum("category").notNull(),
+    created_by: text("created_by").references(() => users.id).notNull(),
+    created_at: timestamp("created_at").defaultNow().notNull(),
+    updated_at: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// Expense participants table
+export const expenseParticipants = pgTable("expense_participants", {
+    id: text("id").primaryKey(),
+    expense_id: text("expense_id").references(() => expenses.id).notNull(),
+    user_id: text("user_id").references(() => users.id).notNull(),
+    percentage: decimal("percentage", { precision: 5, scale: 2 }).notNull().$type<number>(),
+    amount: decimal("amount", { precision: 10, scale: 2 }).notNull().$type<number>(),
     paid: boolean("paid").default(false).notNull(),
     created_at: timestamp("created_at").defaultNow().notNull(),
+    updated_at: timestamp("updated_at").defaultNow().notNull(),
 });
 
 // Items table
 export const items = pgTable("items", {
-    item_id: text("item_id").primaryKey().$defaultFn(() => crypto.randomUUID()),
-    bill_id: text("bill_id").references(() => bills.bill_id).notNull(),
+    id: text("id").primaryKey(),
+    expense_id: text("expense_id").references(() => expenses.id).notNull(),
     name: text("name").notNull(),
-    cost: decimal("cost", { precision: 10, scale: 2 }).notNull(),
+    quantity: integer("quantity").notNull(),
+    price: decimal("price", { precision: 10, scale: 2 }).notNull().$type<number>(),
     created_at: timestamp("created_at").defaultNow().notNull(),
+    updated_at: timestamp("updated_at").defaultNow().notNull(),
 });
 
-// Item Splits table
-export const itemSplits = pgTable("item_splits", {
-    item_split_id: text("item_split_id").primaryKey().$defaultFn(() => crypto.randomUUID()),
-    item_id: text("item_id").references(() => items.item_id).notNull(),
-    userId: text("userId").references(() => users.id).notNull(),
-    amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+// Receipts table
+export const receipts = pgTable("receipts", {
+    id: text("id").primaryKey(),
+    expense_id: text("expense_id").references(() => expenses.id).notNull(),
+    image_url: text("image_url").notNull(),
+    merchant_name: text("merchant_name"),
+    location: text("location"),
+    date: timestamp("date").notNull(),
+    total_amount: decimal("total_amount", { precision: 10, scale: 2 }).notNull().$type<number>(),
     created_at: timestamp("created_at").defaultNow().notNull(),
+    updated_at: timestamp("updated_at").defaultNow().notNull(),
 });
 
-// Payments table
-export const payments = pgTable("payments", {
-    payment_id: text("payment_id").primaryKey().$defaultFn(() => crypto.randomUUID()),
-    expense_id: text("expense_id").references(() => expenses.expense_id).notNull(),
-    userId: text("userId").references(() => users.id).notNull(),
-    amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
-    paid_at: timestamp("paid_at").defaultNow().notNull(),
-    payment_method: text("payment_method").notNull(),
-});
 
-// // Relations (optional, for easier querying)
-// export const usersRelations = relations(users, ({ many }) => ({
-//     friends: many(friends),
-//     createdBills: many(bills),
-//     expenses: many(expenses),
-//     itemSplits: many(itemSplits),
-//     payments: many(payments),
-// }));
+// Relations
 
-// export const friendsRelations = relations(friends, ({ one }) => ({
-//     user: one(users, { fields: [friends.userId], references: [users.id], relationName: "userRelation" }),
-//     friend: one(users, { fields: [friends.friend_id], references: [users.id], relationName: "friendRelation" }),
-// }));
+export const usersRelations = relations(users, ({ many }) => ({
+    createdExpenses: many(expenses),
+    expenseParticipations: many(expenseParticipants),
+}));
 
-// export const billsRelations = relations(bills, ({ one, many }) => ({
-//     createdBy: one(users, { fields: [bills.created_by], references: [users.id] }),
-//     expenses: many(expenses),
-//     items: many(items),
-// }));
+export const expensesRelations = relations(expenses, ({ one, many }) => ({
+    creator: one(users, {
+        fields: [expenses.created_by],
+        references: [users.id],
+    }),
+    participants: many(expenseParticipants),
+    items: many(items),
+    receipt: one(receipts),
+}));
 
-// export const expensesRelations = relations(expenses, ({ one, many }) => ({
-//     bill: one(bills, { fields: [expenses.bill_id], references: [bills.bill_id] }),
-//     user: one(users, { fields: [expenses.userId], references: [users.id] }),
-//     payments: many(payments),
-// }));
+export const expenseParticipantsRelations = relations(expenseParticipants, ({ one }) => ({
+    expense: one(expenses, {
+        fields: [expenseParticipants.expense_id],
+        references: [expenses.id],
+    }),
+    user: one(users, {
+        fields: [expenseParticipants.user_id],
+        references: [users.id],
+    }),
+}));
 
-// export const itemsRelations = relations(items, ({ one, many }) => ({
-//     bill: one(bills, { fields: [items.bill_id], references: [bills.bill_id] }),
-//     itemSplits: many(itemSplits),
-// }));
+export const itemsRelations = relations(items, ({ one }) => ({
+    expense: one(expenses, {
+        fields: [items.expense_id],
+        references: [expenses.id],
+    }),
+}));
 
-// export const itemSplitsRelations = relations(itemSplits, ({ one }) => ({
-//     item: one(items, { fields: [itemSplits.item_id], references: [items.item_id] }),
-//     user: one(users, { fields: [itemSplits.userId], references: [users.id] }),
-// }));
+export const receiptsRelations = relations(receipts, ({ one }) => ({
+    expense: one(expenses, {
+        fields: [receipts.expense_id],
+        references: [expenses.id],
+    }),
+}));
 
-// export const paymentsRelations = relations(payments, ({ one }) => ({
-//     expense: one(expenses, { fields: [payments.expense_id], references: [expenses.expense_id] }),
-//     user: one(users, { fields: [payments.userId], references: [users.id] }),
-// }));
-
-
+// Next Auth Additional Schema
 
 
 export const accounts = pgTable(
@@ -188,3 +192,7 @@ export const authenticators = pgTable(
     //     }),
     // })
 )
+
+function uuid(arg0: string) {
+    throw new Error("Function not implemented.");
+}

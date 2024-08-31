@@ -1,6 +1,6 @@
 // lib/db/itemSplits.ts
 import { db } from '../db'; // Your Drizzle-ORM instance
-import { itemSplits } from './../schema'; // Import the item_splits table schema
+import { itemSplits } from '../.schema'; // Import the item_splits table schema
 import { eq } from 'drizzle-orm'; // Import the eq function for querying
 
 // Infer types from the schema

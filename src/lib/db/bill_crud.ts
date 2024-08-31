@@ -1,6 +1,6 @@
 // lib/db/bills.ts
 import { db } from '../db'; // Your Drizzle-ORM instance
-import { bills } from './../schema'; // Import the bills table schema
+import { bills } from '../.schema'; // Import the bills table schema
 import { eq } from 'drizzle-orm'; // Import the eq function for querying
 
 // Create a Bill

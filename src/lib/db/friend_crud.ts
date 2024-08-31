@@ -1,5 +1,5 @@
 import { db } from '../db'; // Your Drizzle-ORM instance
-import { friends } from './../schema'; // Your friends table schema
+import { friends } from '../.schema'; // Your friends table schema
 import { eq, or } from 'drizzle-orm'; // Import the eq function for querying
 
 // Create a Friendship

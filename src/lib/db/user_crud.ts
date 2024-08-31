@@ -1,5 +1,5 @@
 import { db } from '../db'; // Your Drizzle-ORM instance
-import { users } from './../schema'; // Your users table schema
+import { users } from '../.schema'; // Your users table schema
 import { eq } from 'drizzle-orm'; // Import the eq function for querying
 
 // Create a User

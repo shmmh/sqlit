@@ -28,7 +28,7 @@
     "drizzle-orm": "^0.33.0",
     "embla-carousel-react": "^8.2.0",
     "env": "link:@types/@next/env",
-    "framer-motion": "^11.3.24",
+    "framer-motion": "^11.3.31",
     "lucide-react": "^0.436.0",
     "next": "14.2.5",
     "next-auth": "^5.0.0-beta.20",

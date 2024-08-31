@@ -13,12 +13,7 @@ import { accounts, authenticators, sessions, users } from './schema';
 
 
 type User = typeof users.$inferSelect
-const adapter = DrizzleAdapter(db, {
-    usersTable: users,
-    sessionsTable: sessions,
-    accountsTable: accounts,
-    authenticatorsTable: authenticators
-})
+const adapter = DrizzleAdapter(db)
 
 const credOptions = {
     async authorize({ email, password }: any) {

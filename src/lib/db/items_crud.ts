@@ -1,6 +1,6 @@
 // lib/db/items.ts
 import { db } from '../db'; // Your Drizzle-ORM instance
-import { items } from './../schema'; // Import the items table schema
+import { items } from '../.schema'; // Import the items table schema
 import { eq } from 'drizzle-orm'; // Import the eq function for querying
 
 // Infer types from the schema
