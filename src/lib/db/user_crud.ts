@@ -1,6 +1,8 @@
 import { db } from '../db'; // Your Drizzle-ORM instance
 import { users } from '../.schema'; // Your users table schema
-import { eq } from 'drizzle-orm'; // Import the eq function for querying
+import { ConsoleLogWriter, count, eq, sql } from 'drizzle-orm'; // Import the eq function for querying
+import { expenseParticipants, expenses } from '../schema';
+import exp from 'constants';
 
 // Create a User
 export async function createUser(data: { username: string; email: string; password: string }) {
@@ -47,4 +49,43 @@ export async function deleteUser(userId: string) {
         .returning(); // Returns the deleted user
 
     return deletedUser;
+}
+
+// get user balance by calculating all expenses need to paid
+// Query to calculate user balances
+export async function calculateUserBalances(userId: string) {
+    const res = await db
+        .select({
+            totalOwed: sql<number>`SUM(${expenseParticipants.amount})`,
+            totalPaid: sql<number>`SUM(CASE WHEN ${expenseParticipants.paid} = true THEN ${expenseParticipants.amount} ELSE 0 END)`,
+        })
+        .from(expenseParticipants)
+        .where(eq(expenseParticipants.user_id, userId))
+
+    return res
+}
+// get user recent expenses by userId
+export async function getUserExpensesById(userId: string) {
+    const sq = db
+        .select({
+            participantId: expenseParticipants.id,
+            userId: users.id,
+            userProfilePicture: users.image,
+        })
+        .from(expenseParticipants)
+        .leftJoin(users, eq(expenseParticipants.user_id, users.id))
+        .where(eq(expenseParticipants.expense_id, expenses.id))
+        .groupBy(expenseParticipants.id, users.id)
+        .as('participants')
+
+    const userExpenses = await db.query.expenses.findMany({
+        where: eq(expenses.created_by, userId),
+        with: {
+            participants: true
+        }
+    })
+    console.log(userExpenses)
+
+
+    return userExpenses
 }

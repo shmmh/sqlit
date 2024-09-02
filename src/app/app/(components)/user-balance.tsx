@@ -1,11 +1,19 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/react"
 
-export const UserBalanceSection = () => {
+export const UserBalanceSection = ({
+  balance,
+  owed,
+  paid,
+}: {
+  balance: number
+  owed: number
+  paid: number
+}) => {
   return (
     <div className="grid w-full grid-cols-3 sm:grid-cols-3 items-center justify-center gap-2">
-      <UserBalanceCard title="Balance" amount={100}></UserBalanceCard>
-      <UserBalanceCard title="You Owe" amount={100}></UserBalanceCard>
-      <UserBalanceCard title="You Get" amount={100}></UserBalanceCard>
+      <UserBalanceCard title="Balance" amount={balance}></UserBalanceCard>
+      <UserBalanceCard title="You Owe" amount={paid}></UserBalanceCard>
+      <UserBalanceCard title="You Get" amount={owed}></UserBalanceCard>
     </div>
   )
 }

@@ -8,6 +8,7 @@ import { redirect } from "next/navigation"
 
 export type NewUser = typeof users.$inferInsert
 export type Session = typeof sessions.$inferInsert
+import * as schema from "@/lib/schema"
 
 let sslMode = ""
 if (process.env.APP_ENV === "prod") {
@@ -18,7 +19,7 @@ export const pool = new Pool(
   { connectionString: config.POSTGRES_URL + sslMode }
 )
 
-export const db = drizzle(pool)
+export const db = drizzle(pool, { schema })
 
 
 export async function getUserByEmail(email: string) {

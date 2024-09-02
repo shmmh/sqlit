@@ -1,6 +1,6 @@
 // lib/db/expenses.ts
 import { db } from '../db'; // Your Drizzle-ORM instance
-import { expenses } from '../.schema'; // Import the expenses table schema
+import { expenses } from '../schema'; // Import the expenses table schema
 import { eq } from 'drizzle-orm'; // Import the eq function for querying
 
 // Infer types from the schema
@@ -25,7 +25,7 @@ export async function getAllExpenses() {
 // Get an Expense by ID using findFirst
 export async function getExpenseById(expenseId: string) {
     const expense = await db.select().from(expenses)
-        .where(eq(expenses.expense_id, expenseId))
+        .where(eq(expenses.id, expenseId))
 
     return expense[0];
 }
@@ -37,7 +37,7 @@ export async function updateExpense(expenseId: string, data: Partial<ExpenseInse
             ...data,
             created_at: new Date(), // Update timestamp to current time
         })
-        .where(eq(expenses.expense_id, expenseId))
+        .where(eq(expenses.id, expenseId))
         .returning(); // Returns the updated expense(s)
 
     // Handle the result which is an array of updated records
@@ -49,11 +49,23 @@ export async function updateExpense(expenseId: string, data: Partial<ExpenseInse
 // Delete an Expense
 export async function deleteExpense(expenseId: string) {
     const result: ExpenseSelect[] = await db.delete(expenses)
-        .where(eq(expenses.expense_id, expenseId))
+        .where(eq(expenses.id, expenseId))
         .returning(); // Returns the deleted expense(s)
 
     // Handle the result which is an array of deleted records
     const deletedExpense: ExpenseSelect | null = result.length > 0 ? result[0] : null;
 
     return deletedExpense;
+}
+
+export async function getExpenseDetailsById(expenseId: string) {
+    const expenseDetails = await db.query
+        .expenses
+        .findFirst(
+            {
+                where: eq(expenses.id, expenseId),
+                with: { participants: true }
+            }
+        )
+    return expenseDetails
 }

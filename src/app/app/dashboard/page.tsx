@@ -1,28 +1,31 @@
 import { BeakerIcon } from "@heroicons/react/24/solid"
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  User,
-  Button,
-} from "@nextui-org/react"
-import Link from "next/link"
+import { User } from "@nextui-org/react"
 import { UserBalanceSection } from "../(components)/user-balance"
-import { RecentBillingSection } from "../(components)/recent-billing"
+import { RecentExpensesSection } from "../(components)/recent-expenses"
 import { RecentActivitySection } from "../(components)/recent-activity"
-import { signOut } from "next-auth/react"
-import { SubmitButton } from "@/components/submit-button"
+
 import SignOutButton from "../(components)/signout"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { createExpense, getAllExpenses } from "@/lib/db/expenses_crud"
 import { redirect } from "next/navigation"
+import { calculateUserBalances, getUserExpensesById } from "@/lib/db/user_crud"
+import { get } from "http"
+import ExpenseForm from "../expenses/expense-form"
 
 export default async function Dashboard() {
   const session = await auth()
   if (!session) return redirect("/login")
   console.log("session", session)
+
+  const userId = "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p"
+  const userbalance = await calculateUserBalances(userId)
+
+  const userExpenses = await getUserExpensesById(userId)
+  console.log("userExpenses", userExpenses)
+  console.log("userbalance", userbalance)
+  const balance = userbalance[0].totalOwed - userbalance[0].totalPaid
+  const owed = userbalance[0].totalOwed
+  const paid = userbalance[0].totalPaid
 
   return (
     <div className="p-4 flex flex-col gap-8 justify-start pb-20">
@@ -37,8 +40,9 @@ export default async function Dashboard() {
         }}
       />
       {session && <SignOutButton>Signout</SignOutButton>}
-      <UserBalanceSection />
-      <RecentBillingSection />
+      <ExpenseForm />
+      <UserBalanceSection paid={paid} owed={owed} balance={balance} />
+      <RecentExpensesSection userExpenses={userExpenses} />
       <RecentActivitySection />
     </div>
   )
