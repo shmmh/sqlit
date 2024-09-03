@@ -17,16 +17,10 @@ import { ShareIcon } from "@heroicons/react/24/solid"
 import { expenses } from "@/lib/schema"
 import { Link } from "next-view-transitions"
 
-interface Expense {
-  id: string
-  name: string
-  participants: { id: string; percentage: string | null }[]
-  total_amount: string
-}
 export const RecentExpensesSection = ({
   userExpenses,
 }: {
-  userExpenses: Expense[]
+  userExpenses: any[]
 }) => {
   return (
     <div className="flex flex-col gap-4">

@@ -66,17 +66,6 @@ export async function calculateUserBalances(userId: string) {
 }
 // get user recent expenses by userId
 export async function getUserExpensesById(userId: string) {
-    const sq = db
-        .select({
-            participantId: expenseParticipants.id,
-            userId: users.id,
-            userProfilePicture: users.image,
-        })
-        .from(expenseParticipants)
-        .leftJoin(users, eq(expenseParticipants.user_id, users.id))
-        .where(eq(expenseParticipants.expense_id, expenses.id))
-        .groupBy(expenseParticipants.id, users.id)
-        .as('participants')
 
     const userExpenses = await db.query.expenses.findMany({
         where: eq(expenses.created_by, userId),
@@ -84,7 +73,6 @@ export async function getUserExpensesById(userId: string) {
             participants: true
         }
     })
-    console.log(userExpenses)
 
 
     return userExpenses

@@ -19,7 +19,7 @@ export const pool = new Pool(
   { connectionString: config.POSTGRES_URL + sslMode }
 )
 
-export const db = drizzle(pool, { schema })
+export const db = drizzle(pool, { schema, logger: true })
 
 
 export async function getUserByEmail(email: string) {

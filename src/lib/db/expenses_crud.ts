@@ -64,7 +64,14 @@ export async function getExpenseDetailsById(expenseId: string) {
         .findFirst(
             {
                 where: eq(expenses.id, expenseId),
-                with: { participants: true }
+                with: {
+                    participants: {
+                        with: {
+                            items: true
+                        }
+                    }
+                },
+
             }
         )
     return expenseDetails

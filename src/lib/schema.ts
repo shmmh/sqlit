@@ -47,9 +47,8 @@ export const expenses = pgTable("expenses", {
 // Expense participants table
 export const expenseParticipants = pgTable("expense_participants", {
     id: text("id").primaryKey(),
-    expenses_id: text("expenses_id").references(() => expenses.id).notNull(),
+    expense_id: text("expense_id").references(() => expenses.id).notNull(),
     user_id: text("user_id").references(() => users.id).notNull(),
-    expenses_participants_items_id: text("expenses_participants_id").references(() => expenseParticipantsItems.id),
     percentage: decimal("percentage", { precision: 5, scale: 2 }).notNull().$type<number>(),
     amount: decimal("amount", { precision: 10, scale: 2 }).notNull().$type<number>(),
     paid: boolean("paid").default(false).notNull(),
@@ -60,7 +59,7 @@ export const expenseParticipants = pgTable("expense_participants", {
 // Expense Participant Items Table
 export const expenseParticipantsItems = pgTable("expense_participants_items", {
     id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
-    expenses_id: text("expenses_id").references(() => expenses.id),
+    expenses_participants_id: text("expenses_participants_id").references(() => expenseParticipants.id),
     items_id: text("items_id").references(() => items.id),
     quantity: integer("quantity").notNull(),
     created_at: timestamp("created_at").defaultNow().notNull(),
@@ -112,7 +111,7 @@ export const expensesRelations = relations(expenses, ({ one, many }) => ({
 
 export const expenseParticipantsRelations = relations(expenseParticipants, ({ one, many }) => ({
     expense: one(expenses, {
-        fields: [expenseParticipants.expenses_id],
+        fields: [expenseParticipants.expense_id],
         references: [expenses.id],
     }),
     user: one(users, {
@@ -122,11 +121,11 @@ export const expenseParticipantsRelations = relations(expenseParticipants, ({ on
     items: many(expenseParticipantsItems)
 }));
 export const expenseParticipantsItemsRelations = relations(expenseParticipantsItems, ({ one, many }) => ({
-    expense: one(expenses, {
-        fields: [expenseParticipantsItems.expenses_id],
-        references: [expenses.id],
+    pariticipant: one(expenseParticipants, {
+        fields: [expenseParticipantsItems.id],
+        references: [expenseParticipants.id]
     }),
-    participants: many(expenseParticipants)
+    items: many(items)
 }));
 
 export const itemsRelations = relations(items, ({ one, many }) => ({

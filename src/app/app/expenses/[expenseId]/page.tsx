@@ -6,18 +6,41 @@ import {
 import { Button, Divider, User } from "@nextui-org/react"
 import CollapsibleComponent from "../../(components)/user-expense-details"
 import UserExpenseDetails from "../../(components)/user-expense-details"
+import { expenseParticipants, items } from "@/lib/schema"
+import { getExpenseDetailsById } from "@/lib/db/expenses_crud"
 
-const ExpensesDetailsPage = ({ params }: { params: { expenseId: string } }) => {
+const ExpensesDetailsPage = async ({
+  params,
+}: {
+  params: { expenseId: string }
+}) => {
   const expenseId = params.expenseId
+  const expenseDetails = await getExpenseDetailsById(expenseId)
+
+  const formattedDate = new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(expenseDetails?.created_at)
+
+  const formattedTime = new Intl.DateTimeFormat("en-Gb", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(expenseDetails?.created_at)
+
   return (
     <div className="p-4 min-h-screen pb-16 pt-64">
+      <pre className="w-full flex-wrap text-wrap">{`${JSON.stringify(expenseDetails, undefined, 2)}`}</pre>
       <div className="flex flex-col justify-between w-full expense-123 flex-grow pb-16 gap-2">
         <div className="flex flex-row justify-between gap-4">
           <div className="flex flex-row flex-start gap-4">
             <div className="[view-transition-name:abc]w-24 h-24 rounded-full bg-red-500"></div>
             <div className="flex flex-col">
-              <div className="restraunt-name font-semibold">Restraunt 1</div>
-              <span>10 Dec 2024 | 19:30</span>
+              <div className="restraunt-name font-semibold">
+                {expenseDetails?.name}
+              </div>
+              <span>{`${formattedDate} | ${formattedTime}`}</span>
             </div>
           </div>
           <ShareIcon className="size-6"></ShareIcon>
@@ -26,23 +49,27 @@ const ExpensesDetailsPage = ({ params }: { params: { expenseId: string } }) => {
           <span className="text-md pr-4 font-semibold block align-center">
             Total Bill
           </span>
-          <span className="text-2xl font-bold block">$200</span>
+          <span className="text-2xl font-bold block">
+            ${expenseDetails?.total_amount}
+          </span>
         </div>
         <div className="flex flex-row justify-between w-full gap-2 mt-2">
           <span className="text-xs opacity-55 pr-4 font-semibold block align-center">
-            10 Participants
+            {expenseDetails?.participants.length} Participants
           </span>
           <span className="text-xs opacity-50 font-bold block">
             Avatar of Friends
           </span>
         </div>
       </div>
-      <ExpenseDetails />
+      <ExpenseDetails
+        participants={expenseDetails?.participants as Participants[]}
+      />
     </div>
   )
 }
-
-const ExpenseDetails = () => {
+type Participants = typeof expenseParticipants.$inferSelect
+const ExpenseDetails = ({ participants }: { participants: Participants[] }) => {
   return (
     <div className="flex flex-col gap-4">
       <h3>Expense Details</h3>
@@ -53,6 +80,7 @@ const ExpenseDetails = () => {
   )
 }
 
+type Item = typeof items.$inferSelect
 const UserSplitDetails = () => {
   const user_items = [
     { id: 1, name: "Item 1", qty: 1, amount: 100 },
@@ -72,9 +100,7 @@ interface UserItems {
   amount: number
   id: number
 }
-const Price = ({ amount }: { amount: number }) => {
-  return <span>${amount}</span>
-}
+
 const UserItems: any = ({ items }: { items: UserItems[] }) => {
   return (
     <div className="flex flex-col gap-2 justify-between">
