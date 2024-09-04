@@ -60,20 +60,23 @@ export const AppNav = () => {
         <Tab
           key="friends"
           title={
-            <div className="flex flex-col items-center gap-2">
+            <Link
+              href="/app/friends"
+              className="flex flex-col items-center gap-2"
+            >
               <UserGroupIcon className="size-6" />
               <span>Friends</span>
-            </div>
+            </Link>
           }
           className="h-auto"
         />
         <Tab
           key="user"
           title={
-            <div className="flex flex-col items-center gap-2">
+            <Link href="/app/user" className="flex flex-col items-center gap-2">
               <UserIcon className="size-6" />
               <span>User</span>
-            </div>
+            </Link>
           }
           className="h-auto"
         />
