@@ -41,7 +41,7 @@ async function insertMockData() {
         // Insert receipts
         await db.insert(receipts).values(mockReceipts);
 
-        console.log('Mock data inserted successfully');
+        //console.log('Mock data inserted successfully');
     } catch (error) {
         console.error('Error inserting mock data:', error);
     }

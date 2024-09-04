@@ -1,10 +1,10 @@
-import {auth} from "@/lib/auth"
+import { auth } from "@/lib/auth"
 
-export async function GET(){
+export async function GET() {
     const session = await auth()
-    console.log(session)
-    if (!session){ return Response.json({error: "Not authenticated"}, {status: 401})
+    if (!session) {
+        return Response.json({ error: "Not authenticated" }, { status: 401 })
     }
-    return Response.json({session})
+    return Response.json({ session })
 
 }

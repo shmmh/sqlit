@@ -2,6 +2,7 @@
 import React from "react"
 import {
   Avatar,
+  Badge,
   CheckboxGroup,
   Listbox,
   ListboxItem,
@@ -17,17 +18,18 @@ import { CustomRadio } from "./friend-select"
 
 const ExpenseParticipantsSelect = () => {
   const friends = mockUsers
-
-  const [participants, selectParticipants] = React.useState(new Set<any>([]))
+  const [participants, selectParticipants] = React.useState<Set<string>>(
+    new Set([""])
+  )
   const [groupSelected, setGroupSelected] = React.useState<string>()
   //TODO get friends from db and groups
   // Show empty listbox with a button to add a user
   const selectedFriends: typeof mockUsers = React.useMemo(() => {
-    let selectedValues = Array.from(participants)
+    let selectedValues = Array.from(participants as Set<string>)
     const selectedParticipants = friends.filter((user) =>
       new Set(selectedValues).has(user.id)
     )
-    console.log(selectedParticipants)
+    // //console.log(selectedParticipants)
     return selectedParticipants
   }, [participants])
 
@@ -37,19 +39,26 @@ const ExpenseParticipantsSelect = () => {
         orientation="horizontal"
         value={groupSelected as string}
         onChange={() => {
-          console.log(groupSelected)
+          // //console.log(groupSelected)
         }}
       >
         {selectedFriends.map((user) => {
           return (
-            <CustomRadio
-              value={user.id}
+            <Badge
               key={user.id}
-              name={user.name}
-              size="lg"
+              content={0}
+              color="primary"
+              showOutline={false}
             >
-              <Avatar name={user.name} size="lg" />
-            </CustomRadio>
+              <CustomRadio
+                value={user.id}
+                key={user.id}
+                name={user.name}
+                size="lg"
+              >
+                <Avatar name={user.name} size="lg" />
+              </CustomRadio>
+            </Badge>
           )
         })}
         <Popover placement="bottom-start">
@@ -59,7 +68,12 @@ const ExpenseParticipantsSelect = () => {
           <PopoverContent>
             <Listbox
               selectionMode="multiple"
-              onSelectionChange={(key) => selectParticipants(new Set(key))}
+              selectedKeys={participants}
+              onSelectionChange={(keys) => {
+                //console.log(keys)
+
+                return selectParticipants(keys as Set<string>)
+              }}
             >
               {friends.map((user) => {
                 return (

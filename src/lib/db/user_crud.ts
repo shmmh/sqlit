@@ -1,8 +1,9 @@
 import { db } from '../db'; // Your Drizzle-ORM instance
 import { users } from '../.schema'; // Your users table schema
 import { ConsoleLogWriter, count, eq, sql } from 'drizzle-orm'; // Import the eq function for querying
-import { expenseParticipants, expenses } from '../schema';
+import { expenseParticipants, expenses, groups } from '../schema';
 import exp from 'constants';
+import { truncate } from 'fs';
 
 // Create a User
 export async function createUser(data: { username: string; email: string; password: string }) {
@@ -76,4 +77,56 @@ export async function getUserExpensesById(userId: string) {
 
 
     return userExpenses
+}
+// get user friends
+export async function getUserFriendsById(userId: string) {
+
+    const userFriends = await db
+        .query.users.findFirst({
+            where: eq(users.id, userId),
+            with: {
+                friendships: {
+                    columns: {
+                        friendId: true
+                    },
+                    with: {
+                        friend: true
+                    }
+                }
+            }
+
+
+        })
+
+    console.log(userFriends)
+    if (userFriends) {
+        return userFriends.friendships
+    }
+
+    return []
+
+
+
+}
+// get user groups
+export async function getUserGroupsById(userId: string) {
+
+    const userGroups = await db.query.users.findFirst({
+        where: eq(users.id, userId),
+        with: {
+            createdGroups: {
+                with: {
+                    members: {
+                        with: { user: true }
+                    }
+                },
+
+            }
+        }
+    })
+    if (userGroups) {
+        return userGroups?.createdGroups
+
+    }
+    return []
 }

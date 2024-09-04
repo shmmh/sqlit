@@ -1,6 +1,6 @@
 "use client"
-import { Avatar, Input } from "@nextui-org/react"
-import Image from "next/image"
+import AlbumIcon from "@/assets/icons/album-icon"
+import { Avatar, Image, Input } from "@nextui-org/react"
 import React, { useState } from "react"
 
 const UploadReceipt = () => {
@@ -8,7 +8,7 @@ const UploadReceipt = () => {
   const [preview, setPreview] = useState<string | null>(null)
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("file uploaded")
+    // //console.log("file uploaded")
     const selectedFile = e.target.files ? e.target.files[0] : null
     setFile(selectedFile)
 
@@ -16,7 +16,7 @@ const UploadReceipt = () => {
     if (selectedFile) {
       const reader = new FileReader()
       reader.onloadend = () => {
-        console.log(reader.result)
+        // //console.log(reader.result)
         setPreview(reader.result as string)
       }
       reader.readAsDataURL(selectedFile)
@@ -34,9 +34,15 @@ const UploadReceipt = () => {
       onChange={onFileChange}
       classNames={{ inputWrapper: "h-20" }}
       startContent={
-        <img
-          alt="receipt"
-          className="size-20 rounded-lg p-2 w-32"
+        // <Image
+        //   alt="receipt"
+        //   className="size-20 rounded-lg p-2 w-32"
+        //   src={preview ? (preview as string) : <AlbumIcon />}
+        //   fa
+        // />
+        <Image
+          className="size-20 rounded-lg p-2"
+          fallbackSrc={<AlbumIcon />}
           src={preview as string}
         />
       }

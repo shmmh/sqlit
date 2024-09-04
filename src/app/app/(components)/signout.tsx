@@ -11,6 +11,7 @@ export default function SignOutButton({
 }) {
   return (
     <Button
+      size="md"
       color="primary"
       onClick={async () => {
         await signOut({ redirect: true, callbackUrl: "/" })

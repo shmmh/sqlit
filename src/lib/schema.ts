@@ -23,6 +23,77 @@ export const users = pgTable("users", {
     updated_at: timestamp("updated_at").defaultNow().notNull(),
 });
 
+// Friendships table (for many-to-many relationship)
+export const friendships = pgTable('friendships', {
+    userId: text('user_id').notNull().references(() => users.id),
+    friendId: text('friend_id').notNull().references(() => users.id),
+    createdAt: timestamp('created_at').defaultNow(),
+}, (t) => ({
+    pk: primaryKey({ columns: [t.userId, t.friendId] })
+}));
+
+// Groups table
+export const groups = pgTable('groups', {
+    id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+    name: text('name').notNull(),
+    description: text('description').notNull(),
+    createdBy: text('created_by').notNull().references(() => users.id),
+    createdAt: timestamp('created_at').defaultNow(),
+});
+
+// Group members table with composite primary key
+export const groupMembers = pgTable('group_members', {
+    groupId: text('group_id').notNull().references(() => groups.id),
+    userId: text('user_id').notNull().references(() => users.id),
+    addedAt: timestamp('added_at').defaultNow(),
+}, (table) => ({
+    pk: primaryKey({ columns: [table.groupId, table.userId] }),
+}));
+// Define relations
+
+export const usersRelations = relations(users, ({ many }) => ({
+    createdExpenses: many(expenses),
+    expenseParticipations: many(expenseParticipants),
+    friendships: many(friendships, { relationName: "friendships" }),
+    friendOf: many(friendships, { relationName: 'friendOf' }),
+    createdGroups: many(groups),
+    groupMemberships: many(groupMembers),
+}));
+
+
+
+export const friendshipsRelations = relations(friendships, ({ one }) => ({
+    user: one(users, {
+        fields: [friendships.userId],
+        references: [users.id],
+        relationName: "friendships"
+    }),
+    friend: one(users, {
+        fields: [friendships.friendId],
+        references: [users.id],
+        relationName: "friendOf"
+    }),
+}));
+
+export const groupsRelations = relations(groups, ({ one, many }) => ({
+    creator: one(users, {
+        fields: [groups.createdBy],
+        references: [users.id],
+    }),
+    members: many(groupMembers),
+}));
+
+export const groupMembersRelations = relations(groupMembers, ({ one }) => ({
+    group: one(groups, {
+        fields: [groupMembers.groupId],
+        references: [groups.id],
+    }),
+    user: one(users, {
+        fields: [groupMembers.userId],
+        references: [users.id],
+    }),
+}));
+
 // Expense categories enum
 export const expenseCategoryEnum = pgEnum('expense_category', [
     'utilities',
@@ -34,7 +105,7 @@ export const expenseCategoryEnum = pgEnum('expense_category', [
 
 // Expenses table
 export const expenses = pgTable("expenses", {
-    id: text("id").primaryKey(),
+    id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
     name: text("name").notNull(),
     description: text("description"),
     total_amount: decimal("total_amount", { precision: 10, scale: 2 }).notNull().$type<number>(),
@@ -93,11 +164,6 @@ export const receipts = pgTable("receipts", {
 
 
 // Relations
-
-export const usersRelations = relations(users, ({ many }) => ({
-    createdExpenses: many(expenses),
-    expenseParticipations: many(expenseParticipants),
-}));
 
 export const expensesRelations = relations(expenses, ({ one, many }) => ({
     creator: one(users, {

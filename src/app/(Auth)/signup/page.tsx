@@ -16,7 +16,7 @@ import {
 export default function Signup() {
   async function register(formData: FormData) {
     "use server"
-    console.log("formData", formData)
+    //console.log("formData", formData)
     let email = formData.get("email") as string
     let password = formData.get("password") as string
     let name = formData.get("name") as string

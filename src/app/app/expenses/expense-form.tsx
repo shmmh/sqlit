@@ -17,9 +17,11 @@ import ExpenseParticipants from "./expense-participants"
 import { cn } from "@/lib/utils"
 import UploadReceipt from "./receipt-upload"
 import ExpenseParticipantsSelect from "./expense-participant-selector"
+import ExpenseItems from "./expense-items"
+import { mockItems } from "@/lib/mockData"
 
 const ExpenseForm = async () => {
-  const userId = "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p"
+  const userId = await auth().then((session) => session?.user.userId)
   const participants = [
     {
       id: 1,
@@ -223,6 +225,7 @@ const ExpenseForm = async () => {
     },
   ]
   const categories = ["1", "2"]
+  const items = mockItems
   return (
     <Card className={cn("flex flex-col gap-2")}>
       <CardHeader>
@@ -232,7 +235,7 @@ const ExpenseForm = async () => {
         <form
           action={async (formdata: FormData) => {
             "use server"
-            console.log(formdata)
+            //console.log(formdata)
           }}
           className="flex flex-col gap-y-4"
         >
@@ -247,6 +250,7 @@ const ExpenseForm = async () => {
           {/* <ExpenseParticipants participants={participants} /> */}
           <ExpenseParticipantsSelect />
           <UploadReceipt />
+          <ExpenseItems items={items} />
           <Button type="submit">Submit</Button>
         </form>
       </CardBody>
