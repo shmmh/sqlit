@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations, sql, SQL } from "drizzle-orm";
 import {
     boolean,
     timestamp,
@@ -8,6 +8,7 @@ import {
     integer,
     decimal,
     pgEnum,
+    AnyPgColumn,
 } from "drizzle-orm/pg-core";
 import { AdapterAccountType } from "next-auth/adapters";
 
@@ -108,7 +109,7 @@ export const expenses = pgTable("expenses", {
     id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
     name: text("name").notNull(),
     description: text("description"),
-    total_amount: decimal("total_amount", { precision: 10, scale: 2 }).notNull().$type<number>(),
+    total_amount: decimal("total_amount", { precision: 10, scale: 2 }).default("0").$type<number>(),
     category: expenseCategoryEnum("category").notNull(),
     created_by: text("created_by").references(() => users.id).notNull(),
     created_at: timestamp("created_at").defaultNow().notNull(),
@@ -281,4 +282,9 @@ export const authenticators = pgTable(
 
 function uuid(arg0: string) {
     throw new Error("Function not implemented.");
+}
+
+
+export function lower(text: AnyPgColumn): SQL {
+    return sql`lower(${text})`;
 }

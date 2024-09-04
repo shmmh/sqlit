@@ -47,7 +47,6 @@ export default async function Dashboard() {
         />
         {session && <SignOutButton>Signout</SignOutButton>}
       </div>
-      <ExpenseForm />
       <UserBalanceSection paid={paid} owed={owed} balance={balance} />
       <RecentExpensesSection userExpenses={userExpenses} />
       <RecentActivitySection />

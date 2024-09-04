@@ -8,6 +8,9 @@ import CollapsibleComponent from "../../(components)/user-expense-details"
 import UserExpenseDetails from "../../(components)/user-expense-details"
 import { expenseParticipants, items } from "@/lib/schema"
 import { getExpenseDetailsById } from "@/lib/db/expenses_crud"
+import ExpenseParticipantsSelect from "../expense-participant-selector"
+import { auth } from "@/lib/auth"
+import { getUserFriendsById } from "@/lib/db/user_crud"
 
 const ExpensesDetailsPage = async ({
   params,
@@ -16,6 +19,9 @@ const ExpensesDetailsPage = async ({
 }) => {
   const expenseId = params.expenseId
   const expenseDetails = await getExpenseDetailsById(expenseId)
+  const userId = (await auth().then((session) => session?.user.id)) as string
+
+  const userFriends = await getUserFriendsById(userId)
 
   const formattedDate = new Intl.DateTimeFormat("en-GB", {
     day: "2-digit",
@@ -61,6 +67,10 @@ const ExpensesDetailsPage = async ({
             Avatar of Friends
           </span>
         </div>
+      </div>
+      <div>
+        <span>Participants</span>
+        <ExpenseParticipantsSelect userFriends={userFriends} />
       </div>
       <ExpenseDetails
         participants={expenseDetails?.participants as Participants[]}

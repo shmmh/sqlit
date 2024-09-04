@@ -32,7 +32,9 @@ const Friends = async () => {
                 <h2>{group.name}</h2>
                 <div className="group-container flex flex-row gap-2">
                   {group.members.map((member) => {
-                    return <Avatar name={member.user.name} />
+                    return (
+                      <Avatar key={member.userId} name={member.user.name} />
+                    )
                   })}
                 </div>
               </div>

@@ -1,9 +1,10 @@
 import { calculateUserBalances, getUserExpensesById } from "@/lib/db/user_crud"
 import { RecentExpensesSection } from "../(components)/recent-expenses"
 import ExpenseForm from "./expense-form"
+import { auth } from "@/lib/auth"
 
 export default async function Expenses() {
-  const userId = "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p"
+  const userId = (await auth().then((session) => session?.user.id)) as string
 
   const userExpenses = await getUserExpensesById(userId)
   return (

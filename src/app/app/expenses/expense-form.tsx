@@ -9,6 +9,7 @@ import {
   Input,
   Select,
   SelectItem,
+  Textarea,
 } from "@nextui-org/react"
 import { revalidatePath } from "next/cache"
 import React from "react"
@@ -19,9 +20,16 @@ import UploadReceipt from "./receipt-upload"
 import ExpenseParticipantsSelect from "./expense-participant-selector"
 import ExpenseItems from "./expense-items"
 import { mockItems } from "@/lib/mockData"
+import { getUserFriendsById } from "@/lib/db/user_crud"
+import { db } from "@/lib/db"
+import { expenses } from "@/lib/schema"
+import { redirect } from "next/navigation"
 
 const ExpenseForm = async () => {
-  const userId = await auth().then((session) => session?.user.userId)
+  const userId = (await auth().then((user) => user?.user.id)) as string
+
+  const userFriends = await getUserFriendsById(userId)
+
   const participants = [
     {
       id: 1,
@@ -224,7 +232,13 @@ const ExpenseForm = async () => {
       email: "mia.robinson@example.com",
     },
   ]
-  const categories = ["1", "2"]
+  const categories = [
+    "utilities",
+    "food",
+    "transportation",
+    "entertainment",
+    "other",
+  ]
   const items = mockItems
   return (
     <Card className={cn("flex flex-col gap-2")}>
@@ -235,24 +249,49 @@ const ExpenseForm = async () => {
         <form
           action={async (formdata: FormData) => {
             "use server"
-            //console.log(formdata)
+            let expenseId = null
+            try {
+              const name = formdata.get("name") as string
+              const description = formdata.get("description") as string
+              const category = formdata.get("category") as ItemCategory
+              const created_by = formdata.get("created_by") as string
+              expenseId = await db
+                .insert(expenses)
+                .values({ name, description, category, created_by })
+                .returning({ id: expenses.id })
+              console.log(expenseId)
+            } catch (error) {
+              console.error(error)
+            }
+            if (expenseId) {
+              redirect(`/app/expenses/${expenseId[0].id}`)
+            }
           }}
           className="flex flex-col gap-y-4"
         >
-          <Input type="text" name="name" placeholder="Name of the Expense" />
           <Input
+            type="text"
+            label="Name"
+            name="name"
+            placeholder="Name of the Expense"
+          />
+          <Textarea
             type="textarea"
+            label="Description"
             name="description"
             placeholder="Description of the expense"
           />
-          <Input type="hidden" label="user" name="user" value={userId} />
+          <Input type="hidden" label="user" name="created_by" value={userId} />
           <ExpenseCategorySelect categories={categories} />
+          <Button type="submit" color="primary">
+            Create Expense
+          </Button>
           {/* <ExpenseParticipants participants={participants} /> */}
-          <ExpenseParticipantsSelect />
-          <UploadReceipt />
-          <ExpenseItems items={items} />
-          <Button type="submit">Submit</Button>
         </form>
+        <UploadReceipt />
+        <ExpenseItems items={items} />
+        <ExpenseParticipantsSelect userFriends={userFriends} />
+        <Button type="submit">Submit</Button>
       </CardBody>
     </Card>
   )

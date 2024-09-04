@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect } from "react"
 import { Tabs, Tab } from "@nextui-org/react"
 import { Link } from "next-view-transitions"
 import { usePathname } from "next/navigation"
@@ -13,8 +13,9 @@ import {
 
 export const AppNav = () => {
   const urlPath = usePathname()
-  const pathKey = urlPath.split("/")[-1]
+  const pathKey = urlPath.split("/")[2]
   const [selected, setSelected] = React.useState(pathKey)
+
   return (
     <nav className="flex w-full max-w-7xl flex-cols fixed bottom-0 left-0 right-0 h-16 z-40 mx-auto">
       <Tabs

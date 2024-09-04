@@ -32,7 +32,7 @@ export default async function RootLayout({
         <body className={cn(inter.className)}>
           <Providers>
             <SessionProvider session={session}>
-              <div className="max-w-7xl h-screen mx-auto">
+              <div className="max-w-7xl h-screen mx-auto mb-20">
                 <AppNav />
                 {children}
               </div>

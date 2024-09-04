@@ -1,9 +1,8 @@
 import { db } from '../db'; // Your Drizzle-ORM instance
 import { users } from '../.schema'; // Your users table schema
-import { ConsoleLogWriter, count, eq, sql } from 'drizzle-orm'; // Import the eq function for querying
-import { expenseParticipants, expenses, groups } from '../schema';
-import exp from 'constants';
-import { truncate } from 'fs';
+import { and, eq, gt, ilike, like, sql } from 'drizzle-orm'; // Import the eq function for querying
+import { expenseParticipants, expenses, items, lower } from '../schema';
+
 
 // Create a User
 export async function createUser(data: { username: string; email: string; password: string }) {
@@ -69,10 +68,11 @@ export async function calculateUserBalances(userId: string) {
 export async function getUserExpensesById(userId: string) {
 
     const userExpenses = await db.query.expenses.findMany({
-        where: eq(expenses.created_by, userId),
+        where: and(eq(expenses.created_by, userId), gt(expenses.total_amount, 0.00)),
         with: {
             participants: true
-        }
+        },
+
     })
 
 
@@ -129,4 +129,18 @@ export async function getUserGroupsById(userId: string) {
 
     }
     return []
+}
+
+//find user items
+export async function getUserItems(search: string) {
+    const searchTerm = `%${search}%`
+
+    const userItems = await db.query.items.findMany({
+        where: ilike(items.name, searchTerm),
+        limit: 10
+
+    },)
+
+    return userItems
+
 }
