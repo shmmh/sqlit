@@ -1,4 +1,4 @@
-T## Sqlit - Bill Splitting Made Easy
+## Sqlit - Bill Splitting Made Easy
 
 ### ToDo
 
